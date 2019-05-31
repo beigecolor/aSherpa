@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>aSherpa</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="styles/style.css">
+        <!-- VENDOR SCRIPTS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+        <!-- APPLICATION SCRIPTS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="scripts/app.js"></script>
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1 class="text-center">Under Construction</h1>
+                    <div id='albumTarget'></div>
+                </div>
+            </div>
+        </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <form method="POST" action="http://localhost:3000/api/albums">
+          <input id="albumTitle" name="name" type="text"/>
+          <input id="albumArtist" name="artist" type="text"/>
+          <input type="submit"/>
+      </form>
+    </div>
+  </div>
+</div>
+    </body>
+</html>
