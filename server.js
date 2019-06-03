@@ -156,11 +156,12 @@ app.post("/login", (req, res) => {
           errors: [{ message: "Something went wrong. Please try again" }]
         });
 
-      //if password match create a new session with loggedin and current user prop
+      //if password match create a new session with loggedin and current user properties
       if (isMatch) {
         req.session.loggedIn = true;
         req.session.currentUser = {
           name: foundUser.name,
+          firstName: foundUser.firstName,
           email: foundUser.email
         };
         // redirect user to dashboard
