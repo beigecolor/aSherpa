@@ -1,40 +1,197 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require("express");
+const session = require("express-session");
+const bcrypt = require("bcryptjs");
+const bodyParser = require("body-parser");
 const app = express();
-const mongoose = require('mongoose');
-const db = require('./models');
+// const mongoose = require("mongoose");
+const db = require("./models");
+const PORT = process.env.PORT || 4000;
 
-app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: false}));
-mongoose.connect('mongodb://localhost/finalproject', { useNewUrlParser: true} );
-// * DATA
+// * view engine
+app.set("view engine", "ejs");
+
+// *----------------------------middleware-------------------//
+// * serve public directory
+app.use(express.static(__dirname + "/public"));
+
+//  * parse Url encoded form data
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// * parse JSON data
+app.use(bodyParser.json());
+
+//  * express session middleware
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "SSShhh, this is a secet...",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 // *allow CORS
+// *------------------------------ Routes------------------ //
 
-// *Routes //
-
+// * get root route
 app.get("/", (req, res) => {
-  res.sendFile('views/index.html' , { root : __dirname});
+  if (!req.session.loggedIn) {
+    return res.redirect("/login");
+  }
+  res.render("dashboard", { currentUser: req.session.currentUser });
 });
 
-// get all users
-app.get('/api/users', function(req, res) {
-  db.User.find(function(err, users){
-    if (err) {
-      console.log('error:' + err);
-      res.sendStatus(500);
+// get profile route
+app.get("/profile", (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.redirect("/login");
+  }
+  res.render("profile", { currentUser: req.session.currentUser });
+});
+
+// new user route
+app.get("/signup", (req, res) => {
+  res.render("auth/signup");
+});
+
+//POST create user route
+app.post("/signup", (req, res) => {
+  const errors = [];
+
+  // validate form data
+  if (!req.body.name) {
+    errors.push({ message: "please enter name" });
+  }
+
+  if (!req.body.email) {
+    errors.push({ message: "Please enter your email" });
+  }
+
+  if (!req.body.password) {
+    errors.push({ message: "Please enter your password" });
+  }
+
+  if (req.body.password !== req.body.password2) {
+    errors.push({ message: "Your password do not match" });
+  }
+
+  //validation errors re-render signup page with error messages
+  if (errors.length) {
+    return res.render("auth/signup", { user: req.body, errors: errors });
+  }
+
+  // generate salt for password hash complexity
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err)
+      return res.render("auth/signup", {
+        user: req.body,
+        errors: [{ message: "Something went wrong try again" }]
+      });
+
+    // hash user password from signup form
+    bcrypt.hash(req.body.password, salt, (err, hash) => {
+      if (err)
+        return res.render("auth/signup", {
+          user: req.body,
+          errors: [{ message: "something went wrong" }]
+        });
+
+      //create an object to hold the new user information
+      const newUser = {
+        name: req.body.name,
+        email: req.body.email,
+        password: hash
+      };
+
+      //create a new user record in mongodb form the newuser object above
+      db.User.create(newUser, (err, newUser) => {
+        if (err) return res.render("auth/signup", { errors: [err] });
+        //if new user is created with success redirect to login page
+        //we can create the session to go to dashboard
+        res.redirect("/login");
+      });
+    });
+  });
+});
+
+// Get Login Route
+app.get("/login", (req, res) => {
+  res.render("auth/login");
+});
+
+// POST login route
+app.post("/login", (req, res) => {
+  if (!req.body.email || !req.body.password) {
+    return res.render("auth/login", {
+      user: req.body,
+      errors: [{ message: "Please enter your email and password" }]
+    });
+  }
+
+  //find user by email
+  db.User.findOne({ email: req.body.email }, (err, foundUser) => {
+    if (err)
+      return res.render("auth/login", {
+        user: req.body,
+        errors: [{ message: "something went wrong please try again" }]
+      });
+
+    if (!foundUser) {
+      return res.render("auth/login", {
+        user: req.body,
+        errors: [{ message: "Username or password is incorrect" }]
+      });
     }
-    res.json(users);
+
+    //code runs means ok!
+    //compare password with user and found user
+    bcrypt.compare(req.body.password, foundUser.password, (err, isMatch) => {
+      if (err)
+        return res.render("auth/login", {
+          user: req.body,
+          errors: [{ message: "Something went wrong. Please try again" }]
+        });
+
+      //if password match create a new session with loggedin and current user prop
+      if (isMatch) {
+        req.session.loggedIn = true;
+        req.session.currentUser = {
+          name: foundUser.name,
+          email: foundUser.email
+        };
+        // redirect user to dashboard
+        return res.redirect("/");
+      } else {
+        //password not match render login with error
+        return res.render("auth/login", {
+          user: req.body,
+          error: [{ message: "username or password is incorrect" }]
+        });
+      }
+    });
   });
 });
 
-app.post('/api/users', function (req, res) {
-  db.User.create(req.body, (err, newUser) => {
-    if (err) return res.status(500).json({msg: 'something went terribly wrong'});
-    res.json(newUser);
+//Get Logout Route
+app.get("/logout", (req, res) => {
+  req.session.destroy(err => {
+    if (err)
+      return res.render("auth/login", {
+        user: req.body,
+        errors: [{ message: "Something went wrong. Please try again" }]
+      });
+    res.redirect("/login");
   });
 });
 
+// * ---------------------------------API ROUTES ---------------------------------------//
 
-// * Server Start 
-app.listen(process.env.PORT || 3000, () => console.log('Sherpa app listening at http://localhost:3000'));
+// helper route(see users in the database)
+app.get("/api/v1/users", (req, res) => {
+  db.User.find((err, allUsers) => {
+    if (err) res.json(err);
+    res.json(allUsers);
+  });
+});
+
+// * Server Start
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
