@@ -62,6 +62,10 @@ app.post("/signup", (req, res) => {
     errors.push({ message: "please enter name" });
   }
 
+  if (!req.body.firstName) {
+    errors.push({ message: "Please enter your firsname" });
+  }
+
   if (!req.body.email) {
     errors.push({ message: "Please enter your email" });
   }
@@ -98,6 +102,7 @@ app.post("/signup", (req, res) => {
       //create an object to hold the new user information
       const newUser = {
         name: req.body.name,
+        firstName: req.body.firstName,
         email: req.body.email,
         password: hash
       };

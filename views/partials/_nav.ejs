@@ -1,4 +1,4 @@
-<nav>
+<%# <nav>
   <ul>
     <li><a href="/">Dashboard</a></li>
     <li><a href="/profile">Profile</a></li>
@@ -6,6 +6,28 @@
     <li><a href="/login">Login</a></li>
     <li><a href="/logout">Logout</a></li>
   </ul>
-</nav>
+</nav> %>
+
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">Asherpa</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/signup">Sign Up</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="/">Dashboard</a></li>
+    <li><a href="/profile">Profile</a></li>
+    <li><a href="/signup">Sign Up</a></li>
+    <li><a href="/login">Login</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
 
 <% include _messages.ejs %>
