@@ -2,6 +2,7 @@ body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  background-color: #cbf7ed;
 }
 
 main {
@@ -17,9 +18,13 @@ main {
 }
 
 h1 {
-  color: teal;
+  color: #406e8e;
 }
 
 .nav-wrapper {
-  background-color: lightseagreen;
+  background-color: #161925;
+}
+
+.page-footer {
+  background-color: #23395b;
 }
