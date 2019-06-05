@@ -103,6 +103,8 @@ app.post("/signup", (req, res) => {
       const newUser = {
         name: req.body.name,
         firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phoneNumber: req.body.phoneNumber,
         email: req.body.email,
         password: hash
       };
@@ -162,6 +164,8 @@ app.post("/login", (req, res) => {
         req.session.currentUser = {
           name: foundUser.name,
           firstName: foundUser.firstName,
+          lastName: foundUser.lastName,
+          phoneNumber: foundUser.phoneNumber,
           signUpDate: foundUser.signUpDate,
           email: foundUser.email
         };
