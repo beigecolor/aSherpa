@@ -162,6 +162,7 @@ app.post("/login", (req, res) => {
         req.session.currentUser = {
           name: foundUser.name,
           firstName: foundUser.firstName,
+          signUpDate: foundUser.signUpDate,
           email: foundUser.email
         };
         // redirect user to dashboard
