@@ -8,12 +8,10 @@ const UserSchema = new Schema({
   firstName: String,
   lastName: String,
   phoneNumber: Number,
-  address: {
-    street: String,
-    city: String,
-    zipCode: Number,
-    country: String
-  },
+  street: String,
+  city: String,
+  zipCode: Number,
+  country: String,
   signUpDate: {
     type: Date,
     default: Date.now

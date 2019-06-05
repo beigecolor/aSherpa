@@ -105,6 +105,10 @@ app.post("/signup", (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         phoneNumber: req.body.phoneNumber,
+        street: req.body.street,
+        city: req.body.city,
+        zipCode: req.body.zipCode,
+        country: req.body.country,
         email: req.body.email,
         password: hash
       };
@@ -166,6 +170,10 @@ app.post("/login", (req, res) => {
           firstName: foundUser.firstName,
           lastName: foundUser.lastName,
           phoneNumber: foundUser.phoneNumber,
+          street: foundUser.street,
+          city: foundUser.city,
+          zipCode: foundUser.zipCode,
+          country: foundUser.country,
           signUpDate: foundUser.signUpDate,
           email: foundUser.email
         };
