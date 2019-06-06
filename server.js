@@ -50,7 +50,7 @@ app.get("/profile", (req, res) => {
 
 // new user route
 app.get("/signup", (req, res) => {
-  res.render("auth/signup");
+  res.render("auth/signup", { currentUser: req.session.currentUser });
 });
 
 //POST create user route
@@ -80,7 +80,11 @@ app.post("/signup", (req, res) => {
 
   //validation errors re-render signup page with error messages
   if (errors.length) {
-    return res.render("auth/signup", { user: req.body, errors: errors });
+    return res.render("auth/signup", {
+      user: req.body,
+      errors: errors,
+      currentUser: req.sesssion.currentUser
+    });
   }
 
   // generate salt for password hash complexity
@@ -126,7 +130,7 @@ app.post("/signup", (req, res) => {
 
 // Get Login Route
 app.get("/login", (req, res) => {
-  res.render("auth/login");
+  res.render("auth/login", { currentUser: req.session.currentUser });
 });
 
 // POST login route
@@ -178,7 +182,9 @@ app.post("/login", (req, res) => {
           email: foundUser.email
         };
         // redirect user to dashboard
-        return res.redirect("/");
+        return res.render("dashboard", {
+          currentUser: req.session.currentUser
+        });
       } else {
         //password not match render login with error
         return res.render("auth/login", {
@@ -189,6 +195,8 @@ app.post("/login", (req, res) => {
     });
   });
 });
+
+//delete user
 
 //Get Logout Route
 app.get("/logout", (req, res) => {
@@ -212,5 +220,14 @@ app.get("/api/v1/users", (req, res) => {
   });
 });
 
+app.delete("/api/v1/users/:id", (req, res) => {
+  console.log("DELETE USER ID = ", req.params.id);
+  db.User.findByIdAndDelete(req.params.id, (err, deletedUser) => {
+    if (err) {
+      return res.json(err);
+    }
+    res.redirect("/login");
+  });
+});
 // * Server Start
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
