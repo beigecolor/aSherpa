@@ -21,6 +21,9 @@ h1 {
   color: #406e8e;
 }
 
+.local {
+  width: 40%;
+}
 .nav-wrapper {
   background-color: #161925;
 }
