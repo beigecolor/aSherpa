@@ -229,5 +229,31 @@ app.delete("/api/v1/users/:id", (req, res) => {
     res.redirect("/login");
   });
 });
+
+app.put("/api/v1/users/:id", (req, res) => {
+  console.log(req.params.id);
+  console.log(req.body);
+  db.User.findByIdAndUpdate(req.params.id, req.body, { new: true }).exec(
+    (err, updatedUser) => {
+      if (err) {
+        return res.json(err);
+      }
+      res.json(updatedUser);
+    }
+  );
+});
+
 // * Server Start
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
+// exports.loginUser = function(req, res) {
+//   var newUser = req.body; // here remove the new
+//   userModel.findOneAndUpdate(
+//       { email: req.body.email },
+//       newUser,
+//       { new: true, upsert: true, setDefaultsOnInsert: true },
+//       function(err, userUpdate) {
+//           return res.json(userUpdate);
+//       }
+//   );
+// }

@@ -1,53 +1,75 @@
-const db = require('./models');
+const db = require("./models");
 
 const users_list = [
   {
-    firstName: 'john',
-    lastName: 'smith',
-    address:'10-c sanson road lahug cc',
+    name: "brad",
+    firstName: "john",
+    lastName: "smith",
     phoneNumber: 555631923,
-    email: 'johnsmith@mail.com'
+    street: "10 c sanson",
+    city: "cebu city",
+    zipcode: "98989",
+    country: "philipiines",
+    email: "johnsmith@mail.com"
   },
   {
-    firstName: 'charlie',
-    lastName: 'day',
-    address:'10-b sanson road lahug cc',
-    phoneNumber: 555631456,
-    email: 'charliedayh@mail.com'
+    name: "steven",
+    firstName: "johnson",
+    lastName: "smith",
+    phoneNumber: 555631923,
+    street: "10 c san",
+    city: "manila",
+    zipcode: "98989",
+    country: "philipiines",
+    email: "smith@mail.com"
   },
   {
-    firstName: 'bob',
-    lastName: 'marley',
-    address:'201 jamica st jamaica',
-    phoneNumber: 5556319998,
-    email: 'bobmarley@mail.com'
+    name: "cyclops",
+    firstName: "scott",
+    lastName: "summers",
+    phoneNumber: 555631923,
+    street: "10 c castle",
+    city: "new jersey",
+    zipcode: "98999",
+    country: "United States",
+    email: "jo@mail.com"
   },
   {
-    firstName: 'jim',
-    lastName: 'morrison',
-    address:'101 united st united states',
-    phoneNumber: 5556310000,
-    email: 'jimmorrison@mail.com'
+    name: "dow",
+    firstName: "jones",
+    lastName: "dollar",
+    phoneNumber: 555631923,
+    street: "10 c balk",
+    city: "bali",
+    zipcode: "98989",
+    country: "indonesia",
+    email: "smad@mail.com"
   },
   {
-    firstName: 'lauryn',
-    lastName: 'hill',
-    address:'10 riker st jamaica',
-    phoneNumber: 5556314567,
-    email: 'laurynhill@mail.com'
-  },
+    name: "kree",
+    firstName: "john",
+    lastName: "stodd",
+    phoneNumber: 555631923,
+    street: "10 c galaxy",
+    city: "town",
+    zipcode: "98989",
+    country: "kree",
+    email: "doomh@mail.com"
+  }
 ];
 
-// !remove all the records that match {} ALL records 
+// !remove all the records that match {} ALL records
 db.User.deleteMany({}, function(err, users) {
-  if(err) {
-    console.log('error occured', err);
+  if (err) {
+    console.log("error occured", err);
   } else {
-    console.log('removed all users');
+    console.log("removed all users");
 
     // !create new record on the array user list
-    db.User.create(users_list, function(err, users){
-      if (err) { return console.log('err', err); }
+    db.User.create(users_list, function(err, users) {
+      if (err) {
+        return console.log("err", err);
+      }
       console.log("created", users.length, "users");
       process.exit();
     });
