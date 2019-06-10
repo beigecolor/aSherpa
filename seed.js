@@ -13,6 +13,17 @@ const users_list = [
     email: "johnsmith@mail.com"
   },
   {
+    name: "alex",
+    firstName: "john",
+    lastName: "smith",
+    phoneNumber: 555631923,
+    street: "10 b sanson",
+    city: "manila",
+    zipcode: "6000",
+    country: "philipines",
+    email: "alexsmith@mail.com"
+  },
+  {
     name: "steven",
     firstName: "johnson",
     lastName: "smith",

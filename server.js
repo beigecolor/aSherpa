@@ -220,6 +220,17 @@ app.get("/api/v1/users", (req, res) => {
   });
 });
 
+app.get("/api/v1/cities/:city", (req, res) => {
+  console.log(req.params.city);
+  db.User.find({ city: req.params.city }).exec((err, foundCities) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    res.json(foundCities);
+  });
+});
+
 app.delete("/api/v1/users/:id", (req, res) => {
   console.log("DELETE USER ID = ", req.params.id);
   db.User.findByIdAndDelete(req.params.id, (err, deletedUser) => {
@@ -257,13 +268,3 @@ app.get("/api/v1/users/:id", (req, res) => {
 
 // * Server Start
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-
-// router.get('/userlist', function(req, res) {
-//   var db = req.db;
-//   var collection = db.get('usercollection');
-//   collection.find({},{},function(e,docs){
-//       res.render('userlist', {
-//           "userlist" : docs
-//       });
-//   });
-// });

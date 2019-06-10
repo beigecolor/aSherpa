@@ -22,8 +22,9 @@
 
   <div class="local">
     <div class="input-field col s6">
-      <input  id="searchLocal" type="text" class="validate search">
-      <label for="searchLocal">Search Locations</label><a class="waves-effect waves-light btn">Search</a>
+      <input id="searchLocal" type="text" class="validate search" />
+      <label for="searchLocal">Search Locations</label>
+      <a id="searchBtn" class="waves-effect waves-light btn">Search</a>
     </div>
   </div>
   
@@ -31,25 +32,8 @@
 
   </div>
   
-  <div>
-    <div class="row container">
-     <div class="col s12 m6">
-       <div class="card blue-grey darken-1">
-        <div class="card-content white-text">
-          <span class="card-title"><img src="images/jim.jpeg" alt="" class="circle responsive-img"><%= currentUser.name %>'s Profile</span>
-            <p><strong>Email:</strong> <%= currentUser.email %></p>
-            <p><strong>First Name:</strong> <%= currentUser.firstName %></p>
-        </div>
-        <div class="card-action">
-          <a href="#">Edit</a>
-          <a href="#">Delete</a>
-        </div>
-      </div>
-     </div>
-   </div>
+  <div class="row container">
+    <div id="SearchCards"></div>
   </div>
   
-
- 
-
 <% include partials/_footer.ejs %>

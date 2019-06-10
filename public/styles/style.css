@@ -31,3 +31,8 @@ h1 {
 .page-footer {
   background-color: #23395b;
 }
+
+.row.container {
+  display: flex;
+  flex-direction: row;
+}
