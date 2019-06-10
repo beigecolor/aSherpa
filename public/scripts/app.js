@@ -19,3 +19,19 @@ document.addEventListener("DOMContentLoaded", function() {
   var elems = document.querySelectorAll(".sidenav");
   var instances = M.Sidenav.init(elems);
 });
+
+$userContainer.on("click", ".delete", handleDeleteclick);
+
+function handleDeleteclick(e) {
+  const userId = $(this)
+    .parent("")
+    .attr("id");
+  $.ajax({
+    method: "DELETE",
+    url: `${url}${movieId}`,
+    success: "/logout",
+    error: err => {
+      console.log(err);
+    }
+  });
+}

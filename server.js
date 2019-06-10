@@ -243,17 +243,27 @@ app.put("/api/v1/users/:id", (req, res) => {
   );
 });
 
+app.get("/api/v1/users/:id", (req, res) => {
+  console.log(req.params.id);
+  db.User.findById(req.params.id, req.body, { new: true }).exec(
+    (err, foundUser) => {
+      if (err) {
+        return res.json(err);
+      }
+      res.json(foundUser);
+    }
+  );
+});
+
 // * Server Start
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
-// exports.loginUser = function(req, res) {
-//   var newUser = req.body; // here remove the new
-//   userModel.findOneAndUpdate(
-//       { email: req.body.email },
-//       newUser,
-//       { new: true, upsert: true, setDefaultsOnInsert: true },
-//       function(err, userUpdate) {
-//           return res.json(userUpdate);
-//       }
-//   );
-// }
+// router.get('/userlist', function(req, res) {
+//   var db = req.db;
+//   var collection = db.get('usercollection');
+//   collection.find({},{},function(e,docs){
+//       res.render('userlist', {
+//           "userlist" : docs
+//       });
+//   });
+// });
