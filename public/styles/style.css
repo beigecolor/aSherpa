@@ -1,0 +1,38 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #cbf7ed;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.signup {
+  padding: 30px;
+}
+
+.login {
+  padding: 30px;
+}
+
+h1 {
+  color: #406e8e;
+}
+
+.local {
+  width: 40%;
+}
+.nav-wrapper {
+  background-color: #161925;
+}
+
+.page-footer {
+  background-color: #23395b;
+}
+
+.row.container {
+  display: flex;
+  flex-direction: row;
+}
