@@ -11,6 +11,7 @@ Asherpa is a lite full stack application for Traveling around the world.
 - Express.js
 - MongoDB
 - Materialize
+- Bycrypt
 
 ### Scope /Existing Features
 
